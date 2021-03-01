@@ -9,4 +9,4 @@ sudo mkdir /home/$1/.ssh
 sudo cp /home/sjohnson/SYS265/linux/public-keys/id_rsa.pub /home/$1/.ssh/authorized_keys
 sudo chmod 700 /home/$1/.ssh
 sudo chmod 600 /home/$1/.ssh/authorized_keys
-sudo chown -r $1:$1 /home/sys265/.ssh
+sudo chown -R $1:$1 /home/$1/.ssh

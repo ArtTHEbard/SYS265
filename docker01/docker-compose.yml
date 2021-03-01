@@ -1,0 +1,54 @@
+version: '3'
+
+#Call the creation of a network function. 
+networks:
+  gitea:
+    external: false
+
+services:
+#Configuration for pulling down the Gitea web application.
+  server:
+#Specification of which Gitea version to grab from dockerHub. 
+    image: gitea/gitea:1.13.2
+    container_name: gitea
+#Specify User that Owns the volume. 
+    environment:
+      - USER_UID=1000
+      - USER_GID=1000
+#Specify database info. 
+      - DB_TYPE=postgres
+      - DB_HOST=db:5432
+      - DB_NAME=gitea
+      - DB_USER=gitea
+      - DB_PASSWD=gitea
+    restart: always
+#Establishes the connection to the created network. 
+    networks:
+      - gitea
+#Specify volumes. 
+    volumes:
+      - ./data:/data
+      - /etc/timezone:/etc/timezone:ro
+      - /etc/localtime:/etc/localtime:ro
+#Specify the two sets of Ports.
+    ports:
+      - "3000:3000"
+      - "222:22"
+#Specify the use of the POSTgresql database. 
+    depends_on:
+      - db
+#Configuration for the creation and configuration of a MariaDB database for Gitea. 
+  db:
+#Specify which POSTGRES image to pull. 
+    image: postgres:9.6
+    restart: always
+#Configue the POSTGRES database. 
+    environment:
+      - POSTGRES_USER=gitea
+      - POSTGRES_PASSWORD=gitea
+      - POSTGRES_DB=gitea
+#Specify the connection to the network. 
+    networks:
+      - gitea
+    volumes:
+      - ./postgres:/var/lib/postgresql/data

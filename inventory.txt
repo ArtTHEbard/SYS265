@@ -1,0 +1,9 @@
+[docker]
+ansible1-samjohnson
+[webmin]
+ansible2-samjohnson
+[windows]
+mgmt01-samjohnson
+wks01-samjohnson
+[windows:vars]
+ansible_shell_type=powershell
